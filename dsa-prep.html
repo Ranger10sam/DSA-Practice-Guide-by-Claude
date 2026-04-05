@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>74 DSA Problems — 10-15 LPA Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0e13;
+  --bg-card: #13161d;
+  --bg-card-hover: #181c25;
+  --bg-surface: #1a1e28;
+  --border: #252a36;
+  --border-hover: #353c4d;
+  --text-primary: #e8eaf0;
+  --text-secondary: #8b90a0;
+  --text-muted: #5c6070;
+  --accent-orange: #f59e0b;
+  --accent-orange-dim: rgba(245, 158, 11, 0.12);
+  --accent-green: #22c55e;
+  --accent-green-dim: rgba(34, 197, 94, 0.12);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59, 130, 246, 0.12);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239, 68, 68, 0.1);
+  --accent-purple: #a78bfa;
+  --accent-purple-dim: rgba(167, 139, 250, 0.1);
+  --easy: #22c55e;
+  --medium: #f59e0b;
+  --hard: #ef4444;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 80px 32px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(245,158,11,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.1s;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--text-primary);
+  max-width: 700px;
+  margin: 0 auto 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.2s;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent-orange);
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.35s;
+}
+
+/* Stats ribbon */
+.stats-ribbon {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 28px 32px;
+  margin: 0 auto;
+  max-width: 800px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.5s;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  color: var(--text-primary);
+}
+
+.stat-value.orange { color: var(--accent-orange); }
+.stat-value.green { color: var(--accent-green); }
+.stat-value.blue { color: var(--accent-blue); }
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
+/* Progress bar */
+.progress-section {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 0 32px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.6s;
+}
+
+.progress-bar-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-orange), #fbbf24);
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.progress-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent-orange);
+  min-width: 80px;
+  text-align: right;
+}
+
+.progress-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Filters */
+.filters-section {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  padding: 0 32px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.65s;
+}
+
+.filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  min-width: 70px;
+}
+
+.filter-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+.filter-btn.active {
+  background: var(--accent-orange-dim);
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+.filter-btn.active-easy {
+  background: var(--accent-green-dim);
+  border-color: var(--easy);
+  color: var(--easy);
+}
+
+.filter-btn.active-medium {
+  background: var(--accent-orange-dim);
+  border-color: var(--medium);
+  color: var(--medium);
+}
+
+.filter-btn.active-hard {
+  background: var(--accent-red-dim);
+  border-color: var(--hard);
+  color: var(--hard);
+}
+
+/* Main content */
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+/* Pattern section */
+.pattern-section {
+  margin-bottom: 40px;
+}
+
+.pattern-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding: 12px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.pattern-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pattern-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.pattern-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.pattern-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  padding-left: 54px;
+  line-height: 1.65;
+}
+
+/* Problem cards */
+.problems-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.problem-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.problem-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+}
+
+.problem-card.completed {
+  opacity: 0.55;
+}
+
+.problem-card.completed .problem-main {
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+}
+
+.problem-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.problem-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-size: 13px;
+  color: transparent;
+}
+
+.problem-check:hover {
+  border-color: var(--accent-green);
+}
+
+.problem-card.completed .problem-check {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: white;
+}
+
+.problem-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 28px;
+}
+
+.problem-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.problem-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.badge-easy { background: var(--accent-green-dim); color: var(--easy); }
+.badge-medium { background: var(--accent-orange-dim); color: var(--medium); }
+.badge-hard { background: var(--accent-red-dim); color: var(--hard); }
+
+.freq-indicator {
+  flex-shrink: 0;
+  font-size: 14px;
+  width: 24px;
+  text-align: center;
+}
+
+.hint-toggle {
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.hint-toggle:hover {
+  color: var(--accent-blue);
+  background: var(--accent-blue-dim);
+}
+
+.lc-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--bg-surface);
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.lc-link:hover {
+  background: var(--accent-orange-dim);
+  transform: translateY(-1px);
+}
+
+/* Hint panel */
+.hint-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.hint-panel.open {
+  max-height: 200px;
+}
+
+.hint-content {
+  padding: 0 16px 14px 78px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 0;
+}
+
+.hint-content code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: var(--bg-surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent-orange);
+}
+
+/* Company guide section */
+.company-guide {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-top: 60px;
+}
+
+.company-guide h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.tier {
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tier-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.tier-badge.green { background: var(--accent-green-dim); color: var(--accent-green); }
+.tier-badge.orange { background: var(--accent-orange-dim); color: var(--accent-orange); }
+.tier-badge.red { background: var(--accent-purple-dim); color: var(--accent-purple); }
+
+.tier-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.tier-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* No results */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pattern-section {
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero { padding: 48px 20px 36px; }
+  .stats-ribbon { gap: 20px; }
+  .main-content { padding: 0 16px 60px; }
+  .filters-section { padding: 0 16px; }
+  .progress-section { padding: 0 16px; }
+  .problem-row { padding: 10px 12px; gap: 8px; }
+  .problem-name { font-size: 13px; }
+  .hint-content { padding-left: 46px; }
+  .pattern-description { padding-left: 0; }
+  .company-guide { padding: 20px; }
+  .progress-bar-container { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Interview prep for 10–15 LPA bracket</div>
+  <h1>The <em>74</em> DSA problems that actually get asked</h1>
+  <p class="hero-sub">Curated from 25+ real interview reports across Infosys SP, TCS Digital, Capgemini, Cognizant, Wipro, LTIMindtree &amp; Mphasis — 2024–2025.</p>
+</div>
+
+<div class="stats-ribbon">
+  <div class="stat">
+    <div class="stat-value orange" id="totalProblems">74</div>
+    <div class="stat-label">Problems</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value green" id="completedCount">0</div>
+    <div class="stat-label">Completed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value blue">13</div>
+    <div class="stat-label">Patterns</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" style="color:var(--accent-purple);">25+</div>
+    <div class="stat-label">Sources</div>
+  </div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-bar-container">
+    <span class="progress-label">Your progress</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <span class="progress-text" id="progressText">0 / 74</span>
+  </div>
+</div>
+
+<div class="filters-section">
+  <div class="filter-row">
+    <span class="filter-label">Difficulty</span>
+    <button class="filter-btn active" data-filter="diff" data-value="all">All</button>
+    <button class="filter-btn" data-filter="diff" data-value="Easy">Easy</button>
+    <button class="filter-btn" data-filter="diff" data-value="Medium">Medium</button>
+    <button class="filter-btn" data-filter="diff" data-value="Hard">Hard</button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Frequency</span>
+    <button class="filter-btn active" data-filter="freq" data-value="all">All</button>
+    <button class="filter-btn" data-filter="freq" data-value="fire">🔥 Very frequent</button>
+    <button class="filter-btn" data-filter="freq" data-value="check">✅ Regular</button>
+    <button class="filter-btn" data-filter="freq" data-value="square">⬜ Pattern pick</button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Status</span>
+    <button class="filter-btn active" data-filter="status" data-value="all">All</button>
+    <button class="filter-btn" data-filter="status" data-value="pending">Pending</button>
+    <button class="filter-btn" data-filter="status" data-value="done">Completed</button>
+  </div>
+</div>
+
+<div class="main-content" id="mainContent"></div>
+
+<script>
+const PATTERNS = [
+  {
+    id: 'arrays',
+    title: 'Arrays & Hashing',
+    icon: '▦',
+    color: '#f59e0b',
+    desc: 'Dominates every company\'s interview. Cognizant\'s SDE sheet is array-heavy. TCS Digital\'s NQT almost always includes an array problem. Infosys SP assessments begin here.',
+    problems: [
+      { num: 1, name: 'Two Sum', lc: 1, diff: 'Easy', freq: 'fire', hint: 'Store each number\'s index in a HashMap. For each element, check if <code>target - num</code> already exists. One-pass O(n). Remember: store index, not frequency count.' },
+      { num: 2, name: 'Best Time to Buy and Sell Stock', lc: 121, diff: 'Easy', freq: 'fire', hint: 'Track the minimum price seen so far. At each day, compute <code>price - minSoFar</code> and update max profit. Single pass, O(1) space.' },
+      { num: 3, name: 'Contains Duplicate', lc: 217, diff: 'Easy', freq: 'check', hint: 'Insert elements into a HashSet. If <code>add()</code> returns false, a duplicate exists. O(n) time, O(n) space.' },
+      { num: 4, name: 'Maximum Subarray', lc: 53, diff: 'Medium', freq: 'fire', hint: 'Kadane\'s Algorithm: maintain a running sum, reset to current element whenever sum drops below zero. Track global max. <code>dp[i] = max(nums[i], dp[i-1] + nums[i])</code>.' },
+      { num: 5, name: 'Product of Array Except Self', lc: 238, diff: 'Medium', freq: 'check', hint: 'Two passes without division. First pass builds left-prefix products, second pass multiplies in right-suffix products. Use the output array itself for O(1) extra space.' },
+      { num: 6, name: 'Majority Element', lc: 169, diff: 'Easy', freq: 'check', hint: 'Boyer-Moore Voting: maintain candidate + counter. Increment for same, decrement for different. Survivor is the majority element.' },
+      { num: 7, name: 'Sort Colors', lc: 75, diff: 'Medium', freq: 'fire', hint: 'Dutch National Flag with 3 pointers: <code>low</code>, <code>mid</code>, <code>high</code>. Swap 0s to low, 2s to high, advance mid. Single pass in-place sort.' },
+      { num: 8, name: 'Missing Number', lc: 268, diff: 'Easy', freq: 'check', hint: 'XOR all indices 0..n with all elements — duplicates cancel, leaving the missing number. Or use math: <code>n*(n+1)/2 - sum(array)</code>.' },
+      { num: 9, name: 'Move Zeroes', lc: 283, diff: 'Easy', freq: 'check', hint: 'Two pointers: <code>slow</code> marks next non-zero position. When <code>fast</code> finds a non-zero, swap with slow and advance both.' },
+      { num: 10, name: 'Longest Consecutive Sequence', lc: 128, diff: 'Medium', freq: 'check', hint: 'Insert all into a HashSet. For each number where <code>num-1</code> is NOT in the set (start of sequence), count forward. O(n) total.' },
+      { num: 11, name: 'Subarray Sum Equals K', lc: 560, diff: 'Medium', freq: 'check', hint: 'Running prefix sum + HashMap of <code>{prefixSum: count}</code>. At each index check if <code>prefixSum - k</code> exists in map.' },
+      { num: 12, name: 'Find the Duplicate Number', lc: 287, diff: 'Medium', freq: 'check', hint: 'Floyd\'s Tortoise and Hare: treat values as pointers to detect a cycle. Entry point of the cycle = duplicate. O(1) space, no array modification.' },
+      { num: 13, name: 'Rotate Array', lc: 189, diff: 'Medium', freq: 'check', hint: 'Three reverses: reverse whole array → reverse first k → reverse rest. Handle <code>k = k % n</code> first.' },
+    ]
+  },
+  {
+    id: 'strings',
+    title: 'Strings',
+    icon: 'Aa',
+    color: '#22c55e',
+    desc: 'Second most tested topic. Capgemini emphasizes string manipulation heavily. Cognizant reports consistently include palindrome and anagram problems.',
+    problems: [
+      { num: 14, name: 'Reverse String', lc: 344, diff: 'Easy', freq: 'fire', hint: 'Two pointers at start and end, swap and move inward. In-place O(1) space. Common warm-up question.' },
+      { num: 15, name: 'Valid Palindrome', lc: 125, diff: 'Easy', freq: 'fire', hint: 'Two pointers from ends. Skip non-alphanumeric chars, compare lowercase. Watch for empty string edge case.' },
+      { num: 16, name: 'Valid Anagram', lc: 242, diff: 'Easy', freq: 'fire', hint: 'Frequency array of size 26 (or HashMap). Increment for s1, decrement for s2. All counts should be zero at end.' },
+      { num: 17, name: 'Longest Palindromic Substring', lc: 5, diff: 'Medium', freq: 'check', hint: 'Expand around center for each character AND each pair of characters (odd + even length). O(n²) time.' },
+      { num: 18, name: 'Group Anagrams', lc: 49, diff: 'Medium', freq: 'check', hint: 'Sort each string as canonical key, or use frequency-count tuple as key. Group by key in HashMap.' },
+      { num: 19, name: 'First Unique Character in a String', lc: 387, diff: 'Easy', freq: 'fire', hint: 'First pass: build frequency map. Second pass: return first char with count == 1.' },
+    ]
+  },
+  {
+    id: 'twopointers',
+    title: 'Two Pointers',
+    icon: '⟷',
+    color: '#3b82f6',
+    desc: '3Sum is a staple across all curated lists. Trapping Rain Water (Hard) is confirmed asked at Capgemini and Infosys SP in 2024–2025.',
+    problems: [
+      { num: 20, name: 'Remove Duplicates from Sorted Array', lc: 26, diff: 'Easy', freq: 'fire', hint: 'Slow pointer for next unique position. Fast scans ahead. Overwrite <code>nums[slow]</code> when new unique found.' },
+      { num: 21, name: '3Sum', lc: 15, diff: 'Medium', freq: 'check', hint: 'Sort array. Fix one element, use two pointers on remainder for pairs summing to negative of fixed. Skip duplicates carefully.' },
+      { num: 22, name: 'Container With Most Water', lc: 11, diff: 'Medium', freq: 'check', hint: 'Two pointers at both ends. Area = <code>min(h[l], h[r]) × (r-l)</code>. Move the shorter pointer inward.' },
+      { num: 23, name: 'Trapping Rain Water', lc: 42, diff: 'Hard', freq: 'check', hint: 'Two pointers + <code>leftMax</code>/<code>rightMax</code>. Water at position = <code>min(leftMax, rightMax) - height</code>. Move pointer on shorter max side.' },
+    ]
+  },
+  {
+    id: 'slidingwindow',
+    title: 'Sliding Window',
+    icon: '⊞',
+    color: '#a78bfa',
+    desc: 'A pattern Infosys SP loves. LC #3 is one of the most universally asked medium problems. The 2025 SP interview confirmed a LeetCode hard sliding window problem.',
+    problems: [
+      { num: 24, name: 'Longest Substring Without Repeating Characters', lc: 3, diff: 'Medium', freq: 'fire', hint: 'Sliding window + HashSet/HashMap. When duplicate found, shrink from left until removed. Track max window length.' },
+      { num: 25, name: 'Longest Repeating Character Replacement', lc: 424, diff: 'Medium', freq: 'square', hint: 'Track most frequent char in window. If <code>windowSize - maxFreq > k</code>, shrink left. Window size = answer candidate.' },
+      { num: 26, name: 'Minimum Size Subarray Sum', lc: 209, diff: 'Medium', freq: 'square', hint: 'Variable-size window: expand right to grow sum, shrink left when <code>sum ≥ target</code>. Track minimum valid window.' },
+    ]
+  },
+  {
+    id: 'binarysearch',
+    title: 'Binary Search',
+    icon: '⌖',
+    color: '#06b6d4',
+    desc: 'Perennial interview question. Search in Rotated Array confirmed at TCS Digital. Binary Search template questions appear at every company.',
+    problems: [
+      { num: 27, name: 'Binary Search', lc: 704, diff: 'Easy', freq: 'fire', hint: 'Standard: <code>left=0, right=n-1, mid=left+(right-left)/2</code> to avoid overflow. Move left or right based on comparison.' },
+      { num: 28, name: 'Search in Rotated Sorted Array', lc: 33, diff: 'Medium', freq: 'check', hint: 'Determine which half is sorted by comparing <code>nums[mid]</code> with <code>nums[left]</code>. Target in sorted half → search there; else other half.' },
+      { num: 29, name: 'Find First and Last Position', lc: 34, diff: 'Medium', freq: 'check', hint: 'Two binary searches: one for leftmost (keep going left when found), one for rightmost (keep going right when found).' },
+      { num: 30, name: 'Find Minimum in Rotated Sorted Array', lc: 153, diff: 'Medium', freq: 'check', hint: 'Compare <code>nums[mid]</code> with <code>nums[right]</code>. If mid > right, min is in right half; else left half including mid.' },
+      { num: 31, name: 'Search a 2D Matrix', lc: 74, diff: 'Medium', freq: 'square', hint: 'Treat as flattened sorted array. Map 1D index: <code>row = mid/cols, col = mid%cols</code>. Standard binary search.' },
+    ]
+  },
+  {
+    id: 'linkedlist',
+    title: 'Linked List',
+    icon: '⟶',
+    color: '#ec4899',
+    desc: 'Confirmed across every target company. Reversal, cycle detection, and merge are the core. Tested both as code and pen-and-paper exercises at TCS Digital and Infosys SP.',
+    problems: [
+      { num: 32, name: 'Reverse Linked List', lc: 206, diff: 'Easy', freq: 'fire', hint: 'Iterative: <code>prev, curr, next</code>. Point <code>curr.next = prev</code>, advance all three. Know both iterative and recursive.' },
+      { num: 33, name: 'Linked List Cycle', lc: 141, diff: 'Easy', freq: 'fire', hint: 'Floyd\'s: slow moves 1 step, fast moves 2. Meet = cycle. Fast hits null = no cycle. O(1) space.' },
+      { num: 34, name: 'Merge Two Sorted Lists', lc: 21, diff: 'Easy', freq: 'fire', hint: 'Dummy head node. Compare current nodes, attach smaller, advance that pointer. Append remaining at end.' },
+      { num: 35, name: 'Middle of the Linked List', lc: 876, diff: 'Easy', freq: 'fire', hint: 'Slow-fast: when fast reaches end, slow is at middle. Even-length → returns second middle.' },
+      { num: 36, name: 'Remove Nth Node From End', lc: 19, diff: 'Medium', freq: 'check', hint: 'Two-pointer gap: advance fast by n, then move both. When fast reaches end, slow is before target.' },
+      { num: 37, name: 'Palindrome Linked List', lc: 234, diff: 'Easy', freq: 'check', hint: 'Find middle (slow-fast) → reverse second half in-place → compare both halves node by node.' },
+      { num: 38, name: 'Add Two Numbers', lc: 2, diff: 'Medium', freq: 'check', hint: 'Traverse both lists, sum digits + carry. Create new nodes. Don\'t forget final carry. Numbers already in reverse order.' },
+    ]
+  },
+  {
+    id: 'stack',
+    title: 'Stack & Queue',
+    icon: '⊟',
+    color: '#f43f5e',
+    desc: 'Valid Parentheses is almost guaranteed. Stack problems also appear as pseudocode/output-prediction at Capgemini. Largest Rectangle confirmed at Infosys HackWithInfy.',
+    problems: [
+      { num: 39, name: 'Valid Parentheses', lc: 20, diff: 'Easy', freq: 'fire', hint: 'Push opening brackets to stack. For each closing, check top match. Stack must be empty at end. Use a map for bracket pairs.' },
+      { num: 40, name: 'Min Stack', lc: 155, diff: 'Medium', freq: 'check', hint: 'Two stacks: values + current minimums. On push, push <code>min(newVal, currentMin)</code> onto min-stack.' },
+      { num: 41, name: 'Implement Queue using Stacks', lc: 232, diff: 'Easy', freq: 'check', hint: 'Two stacks. Push to stack1. For pop/peek, transfer to stack2 only when stack2 is empty. Amortized O(1).' },
+      { num: 42, name: 'Next Greater Element I', lc: 496, diff: 'Easy', freq: 'check', hint: 'Monotonic decreasing stack. Pop elements smaller than current (their NGE is current). Store in HashMap.' },
+      { num: 43, name: 'Largest Rectangle in Histogram', lc: 84, diff: 'Hard', freq: 'check', hint: 'Monotonic stack: find nearest smaller on left and right. Width = <code>rightSmaller - leftSmaller - 1</code>. Area = height × width.' },
+    ]
+  },
+  {
+    id: 'trees',
+    title: 'Trees & BST',
+    icon: '🌳',
+    color: '#10b981',
+    desc: 'Heaviest at Infosys SP and Mphasis. Others: expect traversals + BST basics. Level-order traversal and BST validation most reported.',
+    problems: [
+      { num: 44, name: 'Maximum Depth of Binary Tree', lc: 104, diff: 'Easy', freq: 'check', hint: 'Recursive: <code>1 + max(depth(left), depth(right))</code>. Base: null → 0. Also solvable with BFS (count levels).' },
+      { num: 45, name: 'Invert Binary Tree', lc: 226, diff: 'Easy', freq: 'check', hint: 'Recursively swap <code>node.left</code> and <code>node.right</code> for every node. Pre-order or post-order both work.' },
+      { num: 46, name: 'Binary Tree Level Order Traversal', lc: 102, diff: 'Medium', freq: 'fire', hint: 'BFS with queue. Use <code>queue.size()</code> at start of each iteration to process one level at a time.' },
+      { num: 47, name: 'Validate Binary Search Tree', lc: 98, diff: 'Medium', freq: 'check', hint: 'Pass valid range <code>(min, max)</code> down recursion. Left child: <code>(min, node.val)</code>, right: <code>(node.val, max)</code>. Use Long.MIN/MAX initially.' },
+      { num: 48, name: 'Lowest Common Ancestor of BST', lc: 235, diff: 'Medium', freq: 'check', hint: 'BST property: both smaller → go left; both larger → go right. Split point (one each side) = LCA.' },
+      { num: 49, name: 'Kth Smallest Element in BST', lc: 230, diff: 'Medium', freq: 'check', hint: 'Inorder traversal = sorted order for BST. Return k-th element. Iterative with stack for O(H+k).' },
+      { num: 50, name: 'Symmetric Tree', lc: 101, diff: 'Easy', freq: 'check', hint: 'Compare tree with its mirror: <code>left.left ↔ right.right</code> AND <code>left.right ↔ right.left</code>.' },
+      { num: 51, name: 'Diameter of Binary Tree', lc: 543, diff: 'Easy', freq: 'check', hint: 'At each node: diameter = <code>leftHeight + rightHeight</code>. Track global max while computing heights recursively.' },
+    ]
+  },
+  {
+    id: 'graphs',
+    title: 'Graphs, BFS & DFS',
+    icon: '⬡',
+    color: '#8b5cf6',
+    desc: 'Rotting Oranges is the most frequently reported graph problem at Infosys. Number of Islands and Course Schedule are standard. Below Infosys SP, basic BFS/DFS understanding suffices.',
+    problems: [
+      { num: 52, name: 'Number of Islands', lc: 200, diff: 'Medium', freq: 'check', hint: 'BFS/DFS from each unvisited \'1\'. Sink connected 1s to 0. Each new search call = one island.' },
+      { num: 53, name: 'Flood Fill', lc: 733, diff: 'Easy', freq: 'check', hint: 'BFS/DFS from starting pixel. Change all connected same-color pixels. Edge case: original color == new color → skip.' },
+      { num: 54, name: 'Rotting Oranges', lc: 994, diff: 'Medium', freq: 'fire', hint: 'Multi-source BFS: all rotten oranges in queue initially. Level = 1 minute. Return -1 if any fresh unreachable.' },
+      { num: 55, name: 'Course Schedule', lc: 207, diff: 'Medium', freq: 'check', hint: 'Cycle detection in directed graph. Kahn\'s topological sort (in-degree) or DFS with 3 states (white/gray/black).' },
+      { num: 56, name: 'Clone Graph', lc: 133, diff: 'Medium', freq: 'square', hint: 'BFS/DFS + HashMap (original → clone). For each neighbor, clone or retrieve existing from map.' },
+    ]
+  },
+  {
+    id: 'dp',
+    title: 'Dynamic Programming',
+    icon: '◫',
+    color: '#f97316',
+    desc: 'The dividing line between 10 and 15 LPA. Infosys SP almost always includes DP. TCS Digital tests basic DP. Wipro/Cognizant rarely go beyond Climbing Stairs. Ordered basic → advanced.',
+    problems: [
+      { num: 57, name: 'Climbing Stairs', lc: 70, diff: 'Easy', freq: 'fire', hint: 'Fibonacci: <code>dp[i] = dp[i-1] + dp[i-2]</code>. Optimize to O(1) space with two variables. Base: dp[1]=1, dp[2]=2.' },
+      { num: 58, name: 'Fibonacci Number', lc: 509, diff: 'Easy', freq: 'fire', hint: 'Iterative bottom-up with two variables. Explicitly asked by name at TCS, Wipro, Capgemini, Infosys.' },
+      { num: 59, name: 'House Robber', lc: 198, diff: 'Medium', freq: 'check', hint: '<code>dp[i] = max(dp[i-1], dp[i-2] + nums[i])</code>. Rob current + skip previous, OR skip current. Confirmed Infosys SP 2024.' },
+      { num: 60, name: 'Coin Change', lc: 322, diff: 'Medium', freq: 'check', hint: 'Bottom-up: <code>dp[amt] = min(dp[amt], dp[amt-coin]+1)</code> for each coin. Init dp[0]=0, rest=infinity.' },
+      { num: 61, name: 'Longest Common Subsequence', lc: 1143, diff: 'Medium', freq: 'fire', hint: 'Match: <code>dp[i][j] = dp[i-1][j-1]+1</code>. No match: <code>max(dp[i-1][j], dp[i][j-1])</code>. Very frequent at Infosys SP.' },
+      { num: 62, name: 'Longest Increasing Subsequence', lc: 300, diff: 'Medium', freq: 'check', hint: 'O(n²) DP or O(n log n) patience sort with binary search on tails array. Asked at HackWithInfy.' },
+      { num: 63, name: 'Partition Equal Subset Sum', lc: 416, diff: 'Medium', freq: 'check', hint: '0/1 Knapsack: can you select elements summing to <code>totalSum/2</code>? Boolean DP, iterate right-to-left.' },
+      { num: 64, name: 'Unique Paths', lc: 62, diff: 'Medium', freq: 'check', hint: '<code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code>. First row and column are 1s. Can optimize to 1D.' },
+      { num: 65, name: 'Word Break', lc: 139, diff: 'Medium', freq: 'square', hint: '<code>dp[i]=true</code> if s[0..i] is segmentable. Check all j where dp[j]=true and s[j..i] is in dictionary.' },
+    ]
+  },
+  {
+    id: 'greedy',
+    title: 'Greedy & Intervals',
+    icon: '⟐',
+    color: '#eab308',
+    desc: 'Sort first, then decide. Merge Intervals is asked everywhere. Greedy problems appear consistently in Infosys SP assessments — the 2024 HackWithInfy Q2 was typically greedy.',
+    problems: [
+      { num: 66, name: 'Jump Game', lc: 55, diff: 'Medium', freq: 'check', hint: 'Track farthest reachable index. At each position: <code>maxReach = max(maxReach, i+nums[i])</code>. If <code>i > maxReach</code>, return false.' },
+      { num: 67, name: 'Merge Intervals', lc: 56, diff: 'Medium', freq: 'check', hint: 'Sort by start time. If current start ≤ previous end → extend end. Else start a new interval.' },
+      { num: 68, name: 'Non-overlapping Intervals', lc: 435, diff: 'Medium', freq: 'square', hint: 'Sort by end time (activity selection). Keep interval ending earliest. Count removals needed.' },
+      { num: 69, name: 'Next Permutation', lc: 31, diff: 'Medium', freq: 'check', hint: 'Find rightmost ascending pair. Swap with smallest larger element on right. Reverse everything after.' },
+    ]
+  },
+  {
+    id: 'heap',
+    title: 'Heap & Priority Queue',
+    icon: '△',
+    color: '#14b8a6',
+    desc: 'Kth Closest was reported at Infosys SP 2024. These two problems teach both core heap patterns: fixed-size heap and frequency-based selection.',
+    problems: [
+      { num: 70, name: 'Kth Largest Element in an Array', lc: 215, diff: 'Medium', freq: 'check', hint: 'Min-heap of size k. Push elements; pop when size > k. Top = kth largest. Or QuickSelect for avg O(n).' },
+      { num: 71, name: 'Top K Frequent Elements', lc: 347, diff: 'Medium', freq: 'square', hint: 'Frequency map → min-heap of size k by freq. Or bucket sort: index = frequency for O(n).' },
+    ]
+  },
+  {
+    id: 'matrix',
+    title: 'Matrix Problems',
+    icon: '⊞',
+    color: '#64748b',
+    desc: 'Set zeros, spiral, and rotate. Tested at Wipro (transpose), TCS (manipulation), Infosys (spiral matrix on 2024 SDE sheet).',
+    problems: [
+      { num: 72, name: 'Set Matrix Zeroes', lc: 73, diff: 'Medium', freq: 'check', hint: 'Use first row/column as markers. Scan and mark, then fill. Handle first row/column separately.' },
+      { num: 73, name: 'Spiral Matrix', lc: 54, diff: 'Medium', freq: 'check', hint: 'Four boundaries: top, bottom, left, right. Go right → down → left → up, shrink after each. Stop when boundaries cross.' },
+      { num: 74, name: 'Rotate Image', lc: 48, diff: 'Medium', freq: 'square', hint: 'Transpose matrix <code>(swap [i][j] ↔ [j][i])</code> then reverse each row = 90° clockwise. In-place.' },
+    ]
+  },
+];
+
+// State
+let completed = new Set();
+let filters = { diff: 'all', freq: 'all', status: 'all' };
+
+// Load saved state
+try {
+  const saved = localStorage.getItem('dsa74_completed');
+  if (saved) completed = new Set(JSON.parse(saved));
+} catch(e) {}
+
+function saveState() {
+  try { localStorage.setItem('dsa74_completed', JSON.stringify([...completed])); } catch(e) {}
+}
+
+function updateProgress() {
+  const total = 74;
+  const done = completed.size;
+  document.getElementById('completedCount').textContent = done;
+  document.getElementById('progressText').textContent = `${done} / ${total}`;
+  document.getElementById('progressFill').style.width = `${(done/total)*100}%`;
+}
+
+function toggleComplete(num, e) {
+  e.stopPropagation();
+  if (completed.has(num)) completed.delete(num);
+  else completed.add(num);
+  saveState();
+  render();
+}
+
+function toggleHint(num, e) {
+  e.stopPropagation();
+  const panel = document.getElementById(`hint-${num}`);
+  panel.classList.toggle('open');
+  const btn = e.target;
+  btn.textContent = panel.classList.contains('open') ? 'Hide hint' : 'Hint';
+}
+
+function matchesFilter(prob) {
+  if (filters.diff !== 'all' && prob.diff !== filters.diff) return false;
+  if (filters.freq !== 'all' && prob.freq !== filters.freq) return false;
+  if (filters.status === 'done' && !completed.has(prob.num)) return false;
+  if (filters.status === 'pending' && completed.has(prob.num)) return false;
+  return true;
+}
+
+function freqIcon(f) {
+  if (f === 'fire') return '🔥';
+  if (f === 'check') return '✅';
+  return '⬜';
+}
+
+function freqTitle(f) {
+  if (f === 'fire') return 'Very frequently reported';
+  if (f === 'check') return 'Regularly asked';
+  return 'Important pattern problem';
+}
+
+function render() {
+  updateProgress();
+  const main = document.getElementById('mainContent');
+  let html = '';
+  let anyVisible = false;
+
+  PATTERNS.forEach((pattern, pi) => {
+    const visibleProblems = pattern.problems.filter(matchesFilter);
+    if (visibleProblems.length === 0) return;
+    anyVisible = true;
+
+    html += `<div class="pattern-section" style="animation-delay:${pi*0.05}s">`;
+    html += `<div class="pattern-header">`;
+    html += `<div class="pattern-icon" style="background:${pattern.color}15;color:${pattern.color};font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;">${pattern.icon}</div>`;
+    html += `<div class="pattern-title">${pattern.title}</div>`;
+    html += `<div class="pattern-count">${visibleProblems.length} problem${visibleProblems.length>1?'s':''}</div>`;
+    html += `</div>`;
+    html += `<div class="pattern-description">${pattern.desc}</div>`;
+    html += `<div class="problems-list">`;
+
+    visibleProblems.forEach(p => {
+      const isDone = completed.has(p.num);
+      html += `<div class="problem-card ${isDone ? 'completed' : ''}" id="card-${p.num}">`;
+      html += `<div class="problem-row">`;
+      html += `<div class="problem-check" onclick="toggleComplete(${p.num}, event)" title="Mark as ${isDone?'incomplete':'complete'}">${isDone ? '✓' : ''}</div>`;
+      html += `<span class="problem-num">#${p.num}</span>`;
+      html += `<div class="problem-main">`;
+      html += `<span class="problem-name">${p.name}</span>`;
+      html += `<span class="badge badge-${p.diff.toLowerCase()}">${p.diff}</span>`;
+      html += `</div>`;
+      html += `<span class="freq-indicator" title="${freqTitle(p.freq)}">${freqIcon(p.freq)}</span>`;
+      html += `<span class="hint-toggle" onclick="toggleHint(${p.num}, event)">Hint</span>`;
+      html += `<a class="lc-link" href="https://leetcode.com/problems/${lcSlug(p)}" target="_blank" rel="noopener" title="Open on LeetCode">LC</a>`;
+      html += `</div>`;
+      html += `<div class="hint-panel" id="hint-${p.num}"><div class="hint-content">${p.hint}</div></div>`;
+      html += `</div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  if (!anyVisible) {
+    html = '<div class="no-results">No problems match your current filters.</div>';
+  }
+
+  // Company guide
+  html += `
+  <div class="company-guide">
+    <h2>Company-specific strategy</h2>
+    <div class="tier">
+      <div class="tier-header">
+        <span class="tier-badge green">2–3 WEEKS</span>
+        <span class="tier-name">Wipro · LTIMindtree · Cognizant GenC</span>
+      </div>
+      <div class="tier-desc">Focus on 🔥 problems only — ~20 problems, all Easy to easy-Medium. Arrays, Strings, basic Linked List, and Valid Parentheses cover 80%+ of what's tested. DP and Graphs can be deprioritized.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-header">
+        <span class="tier-badge orange">4–6 WEEKS</span>
+        <span class="tier-name">TCS Digital · Capgemini Exceller</span>
+      </div>
+      <div class="tier-desc">Cover all 🔥 + ✅ through Binary Search and Linked List sections (~40 problems). Add basic DP. Capgemini: also practice pseudocode output prediction (bitwise, stack/queue ops).</div>
+    </div>
+    <div class="tier">
+      <div class="tier-header">
+        <span class="tier-badge red">8–10 WEEKS</span>
+        <span class="tier-name">Infosys SP/PP · Mphasis SDE</span>
+      </div>
+      <div class="tier-desc">All 74 problems. Focus on DP (LCS, LIS, Knapsack), Graphs (Rotting Oranges, Course Schedule), and the 3 Hard problems. Practice pen-and-paper coding. HackWithInfy ~ Codeforces 1800+ rating.</div>
+    </div>
+  </div>`;
+
+  main.innerHTML = html;
+}
+
+function lcSlug(p) {
+  return p.name.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.dataset.filter;
+    const value = btn.dataset.value;
+    filters[group] = value;
+
+    // Update active state
+    document.querySelectorAll(`.filter-btn[data-filter="${group}"]`).forEach(b => {
+      b.className = 'filter-btn';
+    });
+
+    if (group === 'diff' && value !== 'all') {
+      btn.classList.add(`active-${value.toLowerCase()}`);
+    } else {
+      btn.classList.add('active');
+    }
+
+    render();
+  });
+});
+
+// Initial render
+render();
+</script>
+</body>
+</html>
